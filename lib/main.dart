@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:marquina/Splash/SplashScreen.dart';
 import 'package:marquina/auth/LoginPage.dart';
 
 void main() {
@@ -15,6 +16,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: LoginPage());
+        home: SplashScreen());
   }
 }

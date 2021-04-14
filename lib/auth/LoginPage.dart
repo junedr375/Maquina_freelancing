@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:marquina/Home/HomePage.dart';
 import 'package:marquina/Utils/Utility.dart';
+import 'package:marquina/Widgets/commonAppBar.dart';
 import 'package:marquina/auth/FaceRecognisation.dart';
 import 'package:marquina/auth/ForgotPassword.dart';
 
@@ -16,12 +17,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  Color backgroundColor = Colors.purple[900];
-
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  bool isCredCorrect = true;
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -31,19 +32,19 @@ class _LoginPageState extends State<LoginPage> {
     return SafeArea(
         child: Scaffold(
       backgroundColor: backgroundColor,
-      appBar: AppBar(
-        backgroundColor: backgroundColor,
-        title: Text(appName),
-        actions: [
-          Center(
-            child: Text(
-              'junedr375',
-              style: TextStyle(fontSize: 16),
-            ),
-          ),
-          SizedBox(width: 10),
-        ],
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: backgroundColor,
+      //   title: Text(appName),
+      //   actions: [
+      //     Center(
+      //       child: Text(
+      //         'junedr375',
+      //         style: TextStyle(fontSize: 16),
+      //       ),
+      //     ),
+      //     SizedBox(width: 10),
+      //   ],
+      // ),
       body: Container(
         height: mainAxisHeight,
         width: width,
@@ -52,123 +53,193 @@ class _LoginPageState extends State<LoginPage> {
           key: _formKey,
           child: ListView(
             children: [
+              commonAppBar(),
               SizedBox(height: mainAxisHeight * 0.10),
-              Center(
-                  child: Text('Marquina',
-                      style: TextStyle(fontSize: 25, color: Colors.white))),
-              SizedBox(height: 5),
-              Center(
-                  child: Text('Your Digital Assistant',
-                      style: TextStyle(fontSize: 25, color: Colors.white))),
-              SizedBox(height: mainAxisHeight * 0.04),
-              InkWell(
-                onTap: () {
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: ((context) => FaceRecognization())));
-                },
-                child: Container(
-                    height: 80,
-                    width: 120,
-                    alignment: Alignment.center,
-                    child: Icon(
-                      Icons.camera_alt_outlined,
-                      size: 80,
-                      color: Colors.white,
-                    )),
-              ),
-              SizedBox(height: mainAxisHeight * 0.1),
               Container(
-                alignment: Alignment.centerRight,
-                padding: EdgeInsets.only(right: 10),
-                child: InkWell(
-                    onTap: () {
-                      print('Sign UP');
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => SignUpPage())));
-                    },
-                    child: Text(
-                      'Sign Up',
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500),
-                    )),
-              ),
+                  child: isCredCorrect
+                      ? Column(
+                          children: [
+                            Center(
+                                child: Text('Marquina',
+                                    style: TextStyle(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.grey[800]))),
+                            SizedBox(height: 10),
+                            Center(
+                                child: Text('your digital assistant',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.grey[700],
+                                        fontWeight: FontWeight.w400))),
+                            SizedBox(height: mainAxisHeight * 0.04),
+                            InkWell(
+                              onTap: () {
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: ((context) => FaceRecognization())));
+                              },
+                              child: Container(
+                                  height: 60,
+                                  width: 60,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                          width: 5, color: Colors.blue[400])),
+                                  alignment: Alignment.center,
+                                  child: Icon(
+                                    Icons.camera_alt,
+                                    size: 35,
+                                    color: Colors.black,
+                                  )),
+                            ),
+                          ],
+                        )
+                      : Container(
+                          height: mainAxisHeight * 0.22,
+                          width: width * 0.7,
+                          child: Image.asset(
+                            'assets/pngs/login.png',
+                            fit: BoxFit.fill,
+                          ))),
+              SizedBox(
+                  height: isCredCorrect
+                      ? mainAxisHeight * 0.1
+                      : mainAxisHeight * 0.05),
               SizedBox(height: 10),
               Container(
                 height: 50,
                 width: width,
-                padding: EdgeInsets.only(left: 20),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(25)),
+                //    padding: EdgeInsets.only(left: 20),
                 child: TextFormField(
                   controller: usernameController,
+                  cursorColor: componentColor,
                   decoration: InputDecoration(
-                      border: InputBorder.none,
+                      fillColor: componentColor,
+                      prefixIcon: Icon(
+                        Icons.people_alt_sharp,
+                        color: componentColor,
+                        size: 20,
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: componentColor),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: componentColor),
+                      ),
                       hintText: 'Username',
-                      hintStyle: TextStyle(fontSize: 20)),
-                  style: TextStyle(color: Colors.black, fontSize: 22),
+                      hintStyle:
+                          TextStyle(fontSize: 20, color: componentColor)),
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 22),
                 ),
               ),
               SizedBox(height: 20),
               Container(
                 height: 50,
                 width: width,
-                padding: EdgeInsets.only(left: 20),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(25)),
+                //padding: EdgeInsets.only(left: 20),
                 child: TextFormField(
                   controller: passwordController,
-                  obscureText: true,
+                  cursorColor: componentColor,
                   decoration: InputDecoration(
-                      border: InputBorder.none,
+                      fillColor: componentColor,
+                      prefixIcon: Icon(
+                        Icons.lock,
+                        color: componentColor,
+                        size: 20,
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: componentColor),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: componentColor),
+                      ),
                       hintText: 'Password',
-                      hintStyle: TextStyle(fontSize: 20)),
-                  style: TextStyle(color: Colors.black, fontSize: 22),
+                      hintStyle:
+                          TextStyle(fontSize: 20, color: componentColor)),
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 22),
                 ),
               ),
-              SizedBox(height: 30),
+              if (!isCredCorrect) SizedBox(height: 20),
+              if (!isCredCorrect)
+                Container(
+                    child: Text(
+                  'Please provide correct details',
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.blue,
+                      fontWeight: FontWeight.w600),
+                )),
+              if (!isCredCorrect) SizedBox(height: 30),
+              if (isCredCorrect) SizedBox(height: 50),
               InkWell(
                 onTap: () {
                   login();
+                  setState(() {
+                    isCredCorrect = !isCredCorrect;
+                  });
+                  // print('hello');
+                  // Navigator.pushReplacement(context,
+                  //   MaterialPageRoute(builder: ((context) => HomePage())));
                 },
                 child: Container(
-                  height: 50,
-                  width: width,
+                  height: 40,
+                  width: 50,
+                  margin: EdgeInsets.symmetric(horizontal: 80),
                   alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      borderRadius: BorderRadius.circular(25),
-                      border: Border.all(color: Colors.white, width: 2)),
+                  decoration: BoxDecoration(color: componentColor, boxShadow: [
+                    BoxShadow(
+                        offset: Offset(2, 5),
+                        color: Colors.grey[400],
+                        blurRadius: 10)
+                  ]),
                   child: Text(
                     'Login',
                     style: TextStyle(fontSize: 20, color: Colors.white),
                   ),
                 ),
               ),
-              SizedBox(height: 20),
-              InkWell(
-                onTap: () {
-                  print('Forgot Password');
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: ((context) => ForgotPassword())));
-                },
-                child: Container(
-                  width: width,
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Forgot Password ?',
-                    style: TextStyle(fontSize: 18, color: Colors.white),
+              SizedBox(height: 90),
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      print('Forgot Password');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) => ForgotPassword())));
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Forgot Password ?',
+                        style: TextStyle(fontSize: 15, color: Colors.blue),
+                      ),
+                    ),
                   ),
-                ),
+                  Spacer(),
+                  InkWell(
+                      onTap: () {
+                        print('Sign UP');
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: ((context) => SignUpPage())));
+                      },
+                      child: Text('Sign Up',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.blue,
+                          )))
+                ],
               ),
             ],
           ),
@@ -178,6 +249,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void login() async {
+    print('Hello');
     String apiUrl = 'http://52.14.154.197:8000/user/login/';
 
     var res = await http.post(Uri.parse(apiUrl), body: {
@@ -189,10 +261,16 @@ class _LoginPageState extends State<LoginPage> {
     print(result);
 
     if (result['status'] == 200) {
+      setState(() {
+        isCredCorrect = true;
+      });
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: ((context) => HomePage())));
     } else {
       showCredentialError(result['message']);
+      setState(() {
+        isCredCorrect = false;
+      });
     }
   }
 
