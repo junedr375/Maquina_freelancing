@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:marquina/Splash/SplashScreen.dart';
-import 'package:marquina/auth/LoginPage.dart';
 
 void main() {
   runApp(MyApp());

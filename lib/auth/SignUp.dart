@@ -6,6 +6,7 @@ import 'package:marquina/Utils/Utility.dart';
 import 'package:marquina/Widgets/commonAppBar.dart';
 import 'package:marquina/auth/AuthMessages.dart';
 import 'package:http/http.dart' as http;
+import 'package:marquina/auth/EmailAlreadyResister.dart';
 import 'package:marquina/auth/LoginPage.dart';
 import 'package:marquina/auth/SignUpSuccessFul.dart';
 
@@ -19,6 +20,7 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordAgainController = TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -47,7 +49,7 @@ class _SignUpPageState extends State<SignUpPage> {
           width: width,
           child: Form(
               key: _formKey,
-              child: Column(
+              child: ListView(
                 children: [
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 20),
@@ -70,6 +72,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: TextFormField(
                       controller: usernameController,
                       cursorColor: componentColor,
+                      validator: validateEmail,
                       decoration: InputDecoration(
                           fillColor: componentColor,
                           prefixIcon: Icon(
@@ -92,7 +95,38 @@ class _SignUpPageState extends State<SignUpPage> {
                           fontSize: 22),
                     ),
                   ),
-                  // SizedBox(height: 20),
+                  SizedBox(height: 20),
+                  Container(
+                    height: 50,
+                    width: width,
+                    padding: EdgeInsets.symmetric(horizontal: 30),
+                    child: TextFormField(
+                      controller: passwordController,
+                      cursorColor: componentColor,
+                      validator: (val) =>
+                          val.length < 6 ? 'Atleast 6 character' : null,
+                      decoration: InputDecoration(
+                          fillColor: componentColor,
+                          prefixIcon: Icon(
+                            Icons.remove_red_eye,
+                            color: componentColor,
+                            size: 22,
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: componentColor),
+                          ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: componentColor),
+                          ),
+                          hintText: 'Password',
+                          hintStyle:
+                              TextStyle(fontSize: 20, color: componentColor)),
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 22),
+                    ),
+                  ),
                   // Container(
                   //   height: 50,
                   //   width: width,
@@ -121,8 +155,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   //       color: Colors.white,
                   //       borderRadius: BorderRadius.circular(25)),
                   //   child: TextFormField(
-                  //     validator: (val) =>
-                  //         val.length < 4 ? 'Invalid Format' : null,
+                  // validator: (val) =>
+                  //     val.length < 4 ? 'Invalid Format' : null,
                   //     controller: passwordAgainController,
                   //     obscureText: true,
                   //     decoration: InputDecoration(
@@ -135,16 +169,13 @@ class _SignUpPageState extends State<SignUpPage> {
                   SizedBox(height: 40),
                   InkWell(
                     onTap: () {
-                      //     print('Back');
-                      //   signUp();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => SignUpSuccessFul())));
+                      print('Sign Up');
+                      signUp();
                     },
                     child: Container(
                       height: 40,
                       width: 150,
+                      margin: EdgeInsets.symmetric(horizontal: 120),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                           color: componentColor,
@@ -161,26 +192,16 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                   SizedBox(height: 20),
-                  // InkWell(
-                  //   onTap: () {
-                  //     print('Login');
-                  //     Navigator.pushReplacement(
-                  //         context,
-                  //         MaterialPageRoute(
-                  //             builder: ((context) => LoginPage())));
-                  //   },
-                  //   child: Container(
-                  //     width: width,
-                  //     alignment: Alignment.center,
-                  //     child: Text(
-                  //       'Already Have an account login',
-                  //       style: TextStyle(fontSize: 18, color: Colors.white),
-                  //     ),
-                  //   ),
-                  // ),
                 ],
               ))),
     ));
+  }
+
+  String validateEmail(String value) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    return (!regex.hasMatch(value)) ? 'Enter Valid Mail' : null;
   }
 
   TextStyle textStyle() {
@@ -205,17 +226,16 @@ class _SignUpPageState extends State<SignUpPage> {
         print(result);
 
         if (result['message'] == 'You have successfully registered') {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: ((context) => SignUpSuccessFul())));
+        }
+        if (result['message'] == 'Email Already Register') {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: ((context) => AuthMessagesScreen(
-                        message1: 'Thank you for Chosing',
-                        message2: 'Continue to Login By',
-                        message3: 'Entering email and password',
-                        message4: 'Thank you !!',
-                      ))));
+                  builder: ((context) => EmailAlreadyRegister())));
         } else {
-          showCredentialError(result['message'].toString());
+          //        showCredentialError(result['message'].toString());
         }
       } catch (e) {}
     } else {}

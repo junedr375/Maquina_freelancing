@@ -9,16 +9,15 @@ import 'package:marquina/auth/FaceRecognisation.dart';
 import 'package:marquina/auth/ForgotPassword.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:marquina/auth/ResetPasswordConfirm.dart';
 import 'package:marquina/auth/SignUp.dart';
 import 'package:http/http.dart' as http;
 
-class ForgotPassword extends StatefulWidget {
+class FaceRecognization extends StatefulWidget {
   @override
-  ForgotPasswordState createState() => ForgotPasswordState();
+  FaceRecognizationState createState() => FaceRecognizationState();
 }
 
-class ForgotPasswordState extends State<ForgotPassword> {
+class FaceRecognizationState extends State<FaceRecognization> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   TextEditingController usernameController = TextEditingController();
@@ -43,29 +42,43 @@ class ForgotPasswordState extends State<ForgotPassword> {
             children: [
               commonAppBar(),
               SizedBox(height: mainAxisHeight * 0.10),
-              Container(
-                  child: Center(
-                child: Text('Password Reset',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        letterSpacing: 1,
-                        fontSize: 30,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.blue[400])),
-              )),
+              Center(
+                  child: Text('Face recognition\nSignup',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.grey[800]))),
               SizedBox(height: 20),
-              Container(
-                  child: Center(
-                child: Text(
-                    'To genrate new password.\nprovide your official Email id.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        letterSpacing: 1,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.blue[300])),
-              )),
+              Center(
+                  child: Text(
+                      'Make sure your full face captured\nin the camera of your mobile device',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.grey[700],
+                          fontWeight: FontWeight.w400))),
               SizedBox(height: mainAxisHeight * 0.04),
+              InkWell(
+                onTap: () {
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: ((context) => FaceRecognization())));
+                },
+                child: Container(
+                    height: 60,
+                    width: 60,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(width: 5, color: Colors.blue[400])),
+                    alignment: Alignment.center,
+                    child: Icon(
+                      Icons.camera_alt,
+                      size: 35,
+                      color: Colors.black,
+                    )),
+              ),
               SizedBox(height: 50),
               Container(
                 height: 50,
@@ -75,11 +88,6 @@ class ForgotPasswordState extends State<ForgotPassword> {
                   controller: usernameController,
                   cursorColor: componentColor,
                   decoration: InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.email,
-                        color: componentColor,
-                        size: 25,
-                      ),
                       fillColor: componentColor,
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: componentColor),
@@ -87,7 +95,7 @@ class ForgotPasswordState extends State<ForgotPassword> {
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: componentColor),
                       ),
-                      hintText: 'Email ID',
+                      hintText: 'Username',
                       hintStyle:
                           TextStyle(fontSize: 20, color: componentColor)),
                   style: TextStyle(
@@ -99,10 +107,15 @@ class ForgotPasswordState extends State<ForgotPassword> {
               SizedBox(height: 90),
               InkWell(
                 onTap: () {
+                  //  login();
+                  setState(() {
+                    isCredCorrect = !isCredCorrect;
+                  });
+                  // print('hello');
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: ((context) => ResetPasswordConfirm())));
+                          builder: ((context) => FaceConfirmPage())));
                 },
                 child: Container(
                   child: Container(
@@ -127,5 +140,16 @@ class ForgotPasswordState extends State<ForgotPassword> {
         ),
       ),
     ));
+  }
+
+  void showCredentialError(String msg) {
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 2,
+        backgroundColor: Colors.white,
+        textColor: Colors.red,
+        fontSize: 16.0);
   }
 }

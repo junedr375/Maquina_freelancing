@@ -8,6 +8,7 @@ import 'package:marquina/auth/FaceRecognisation.dart';
 import 'package:marquina/auth/ForgotPassword.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:marquina/auth/NewFaceRecognisation.dart';
 import 'package:marquina/auth/SignUp.dart';
 import 'package:http/http.dart' as http;
 
@@ -75,10 +76,11 @@ class _LoginPageState extends State<LoginPage> {
                             SizedBox(height: mainAxisHeight * 0.04),
                             InkWell(
                               onTap: () {
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: ((context) => FaceRecognization())));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: ((context) =>
+                                            FaceRecognization())));
                               },
                               child: Container(
                                   height: 60,
@@ -115,6 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: TextFormField(
                   controller: usernameController,
                   cursorColor: componentColor,
+                  validator: validateEmail,
                   decoration: InputDecoration(
                       fillColor: componentColor,
                       prefixIcon: Icon(
@@ -182,9 +185,7 @@ class _LoginPageState extends State<LoginPage> {
               InkWell(
                 onTap: () {
                   login();
-                  setState(() {
-                    isCredCorrect = !isCredCorrect;
-                  });
+
                   // print('hello');
                   // Navigator.pushReplacement(context,
                   //   MaterialPageRoute(builder: ((context) => HomePage())));
@@ -248,7 +249,17 @@ class _LoginPageState extends State<LoginPage> {
     ));
   }
 
+  String validateEmail(String value) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    return (!regex.hasMatch(value)) ? 'Enter Valid Mail' : null;
+  }
+
   void login() async {
+    setState(() {
+      isCredCorrect = true;
+    });
     print('Hello');
     String apiUrl = 'http://52.14.154.197:8000/user/login/';
 
@@ -264,10 +275,12 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         isCredCorrect = true;
       });
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: ((context) => HomePage())));
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: ((context) => HomePage())),
+          (Route<dynamic> route) => false);
     } else {
-      showCredentialError(result['message']);
+      // showCredentialError(result['message']);
       setState(() {
         isCredCorrect = false;
       });
