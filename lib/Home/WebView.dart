@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:marquina/Widgets/subCommonAppBar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewDetails extends StatefulWidget {
@@ -17,29 +18,20 @@ class _WebViewDetailsState extends State<WebViewDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: true,
-          backgroundColor: backgroundColor,
-          title: Text('Terms & Privacy'),
-          actions: [
-            Center(
-              child: Text(
-                'junedr375',
-                style: TextStyle(fontSize: 16),
-              ),
-            ),
-            SizedBox(width: 10),
-          ],
+    return SafeArea(
+        child: Scaffold(
+            body: Column(
+      children: [
+        Container(
+          height: 60,
+          child: subCommonAppBar(context),
         ),
-        body: Column(
-          children: [
-            Expanded(
-                child: WebView(
-                    key: _key,
-                    javascriptMode: JavascriptMode.unrestricted,
-                    initialUrl: url))
-          ],
-        ));
+        Expanded(
+            child: WebView(
+                key: _key,
+                javascriptMode: JavascriptMode.unrestricted,
+                initialUrl: url))
+      ],
+    )));
   }
 }

@@ -24,6 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController passwordController = TextEditingController();
 
   bool isCredCorrect = true;
+  bool isObscure = true;
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -61,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
                       ? Column(
                           children: [
                             Center(
-                                child: Text('Marquina',
+                                child: Text('Maquina',
                                     style: TextStyle(
                                         fontSize: 25,
                                         fontWeight: FontWeight.w700,
@@ -148,12 +149,20 @@ class _LoginPageState extends State<LoginPage> {
                 child: TextFormField(
                   controller: passwordController,
                   cursorColor: componentColor,
+                  obscureText: isObscure,
                   decoration: InputDecoration(
                       fillColor: componentColor,
-                      prefixIcon: Icon(
-                        Icons.lock,
-                        color: componentColor,
-                        size: 20,
+                      prefixIcon: InkWell(
+                        onTap: () {
+                          setState(() {
+                            isObscure = !isObscure;
+                          });
+                        },
+                        child: Icon(
+                          isObscure ? Icons.lock : Icons.lock_open,
+                          color: componentColor,
+                          size: 20,
+                        ),
                       ),
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: componentColor),

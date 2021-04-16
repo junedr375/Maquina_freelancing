@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marquina/Home/ChangePasswordScreen.dart';
+import 'package:marquina/Home/GoToTCPage.dart';
 import 'package:marquina/Home/HelpDetails.dart';
 import 'package:marquina/Home/RateThisApp.dart';
 import 'package:marquina/Home/WebView.dart';
@@ -19,26 +20,51 @@ class _SettingPageState extends State<SettingPage> {
     double mainAxisHeight = height > width ? height : width;
     return SafeArea(
         child: Scaffold(
-      appBar: AppBar(
-        backgroundColor: backgroundColor,
-        automaticallyImplyLeading: true,
-        title: Text('Seetings'),
-        actions: [
-          Center(
-            child: Text(
-              'junedr375',
-              style: TextStyle(fontSize: 16),
-            ),
-          ),
-          SizedBox(width: 10),
-        ],
-      ),
       body: Container(
         height: mainAxisHeight,
         width: width,
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
+            Container(
+              height: 60,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(width: 20),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      child: Image.asset(
+                        'assets/pngs/settings.png',
+                        fit: BoxFit.fitHeight,
+                      ),
+                    ),
+                  ),
+                  Spacer(),
+                  Container(
+                    height: 40,
+                    width: 100,
+                    child: Image.asset(
+                      'assets/pngs/logoM.png',
+                      fit: BoxFit.fitHeight,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(height: 20),
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Settings',
+                style: textStyle(),
+              ),
+            ),
             SizedBox(height: 50),
             InkWell(
                 onTap: () {
@@ -70,11 +96,8 @@ class _SettingPageState extends State<SettingPage> {
             SizedBox(height: 20),
             InkWell(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: ((context) => WebViewDetails(
-                              'https://policies.google.com/privacy?hl=en-US'))));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: ((context) => GoToTCPage())));
                 },
                 child: Container(
                   alignment: Alignment.centerLeft,
@@ -119,6 +142,7 @@ class _SettingPageState extends State<SettingPage> {
   }
 
   TextStyle textStyle() {
-    return TextStyle(fontSize: 20, fontWeight: FontWeight.w600);
+    return TextStyle(
+        fontSize: 18, fontWeight: FontWeight.w500, color: Colors.grey[600]);
   }
 }

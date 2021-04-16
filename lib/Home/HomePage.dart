@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:marquina/Home/ChatScreen.dart';
+import 'package:marquina/Home/ExitToAppPage.dart';
 
 import 'package:marquina/Home/SettingsPage.dart';
 import 'package:marquina/Home/NotPage.dart';
 import 'package:marquina/Utils/Utility.dart';
+import 'package:marquina/Widgets/commonAppBar.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -13,7 +15,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Color appBarColor = Colors.purple[900];
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -22,171 +23,320 @@ class _HomePageState extends State<HomePage> {
 
     return SafeArea(
         child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: appBarColor,
-              automaticallyImplyLeading: false,
-              title: Text(appName),
-              actions: [
-                Center(
-                  child: Text(
-                    'junedr375',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-                SizedBox(width: 10),
-              ],
-            ),
+            // appBar: AppBar(
+            //   backgroundColor: appBarColor,
+            //   automaticallyImplyLeading: false,
+            //   title: Text(appName),
+            //   actions: [
+            //     Center(
+            //       child: Text(
+            //         'junedr375',
+            //         style: TextStyle(fontSize: 16),
+            //       ),
+            //     ),
+            //     SizedBox(width: 10),
+            //   ],
+            // ),
             body: Container(
-              height: mainAxisHeight,
+      height: mainAxisHeight,
+      width: width,
+      padding: EdgeInsets.symmetric(horizontal: 40),
+      child: Column(
+        children: [
+          Container(
+            height: 60,
+            child: commonAppBar(),
+          ),
+          SizedBox(height: 20),
+          Container(
+              height: 110,
               width: width,
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
+              child: Row(
                 children: [
-                  SizedBox(height: 20),
-                  Container(
-                      height: 80,
-                      width: width,
-                      child: Row(
+                  InkWell(
+                    onTap: () {
+                      print('HR Policies');
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 110,
+                      width: 100,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          InkWell(
-                              child: Container(
-                                  height: 80,
-                                  width: 150,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.format_list_bulleted_rounded,
-                                        size: 50,
-                                      ),
-                                      SizedBox(height: 10),
-                                      Text('HR Policies')
-                                    ],
-                                  ))),
-                          Spacer(),
-                          InkWell(
-                              child: Container(
-                                  height: 80,
-                                  width: 150,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.business_sharp,
-                                        size: 50,
-                                      ),
-                                      SizedBox(height: 10),
-                                      Text('Bussiness')
-                                    ],
-                                  ))),
+                          Container(
+                            height: 88,
+                            width: 88,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+                                boxShadow: [
+                                  BoxShadow(
+                                      offset: Offset(6, 6),
+                                      color: Colors.grey[300],
+                                      blurRadius: 5),
+                                  BoxShadow(
+                                      offset: Offset(-3, -3),
+                                      color: Colors.grey[300],
+                                      blurRadius: 10)
+                                ]),
+                            child: Container(
+                              height: 50,
+                              width: 50,
+                              alignment: Alignment.center,
+                              child: Image.asset(
+                                'assets/pngs/HRPolicy.png',
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 2),
+                          Container(
+                              child: Center(
+                            child: Text(
+                              'HR Policies',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.lightBlue),
+                            ),
+                          ))
                         ],
-                      )),
-                  SizedBox(height: 30),
-                  Container(
-                      height: 80,
-                      width: width,
-                      child: Row(
-                        children: [
-                          InkWell(
-                              child: Container(
-                                  height: 80,
-                                  width: 150,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.system_update_alt_rounded,
-                                        size: 50,
-                                      ),
-                                      SizedBox(height: 10),
-                                      Text('HR Policies')
-                                    ],
-                                  ))),
-                          Spacer(),
-                          InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: ((context) => ChatScreen())));
-                              },
-                              child: Container(
-                                  height: 80,
-                                  width: 150,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.ac_unit_rounded,
-                                        size: 50,
-                                      ),
-                                      SizedBox(height: 10),
-                                      Text('Ask Amiga')
-                                    ],
-                                  ))),
-                        ],
-                      )),
+                      ),
+                    ),
+                  ),
                   Spacer(),
-                  Container(
-                      height: 40,
-                      width: width,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  InkWell(
+                    onTap: () {
+                      print('Bussiness');
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 110,
+                      width: 100,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: ((context) =>
-                                            NotPageScreen())));
-                              },
-                              child: Container(
-                                height: 40,
-                                child: Icon(
-                                  Icons.notifications,
-                                  size: 30,
-                                ),
-                              )),
-                          InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: ((context) => SettingPage())));
-                              },
-                              child: Container(
-                                height: 40,
-                                child: Icon(
-                                  Icons.settings,
-                                  size: 30,
-                                ),
-                              )),
-                          InkWell(
-                              onTap: () {
-                                exitAppConfirm();
-                              },
-                              child: Container(
-                                height: 40,
-                                child: Icon(
-                                  Icons.toggle_off,
-                                  size: 30,
-                                ),
-                              )),
+                          Container(
+                            height: 88,
+                            width: 88,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+                                boxShadow: [
+                                  BoxShadow(
+                                      offset: Offset(6, 6),
+                                      color: Colors.grey[300],
+                                      blurRadius: 5),
+                                  BoxShadow(
+                                      offset: Offset(-3, -3),
+                                      color: Colors.grey[300],
+                                      blurRadius: 10)
+                                ]),
+                            child: Container(
+                              height: 50,
+                              width: 50,
+                              alignment: Alignment.center,
+                              child: Image.asset(
+                                'assets/pngs/Bussiness.png',
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 2),
+                          Container(
+                              child: Center(
+                            child: Text(
+                              'Bussiness',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.lightBlue),
+                            ),
+                          ))
                         ],
-                      )),
-                  SizedBox(height: 10),
+                      ),
+                    ),
+                  ),
                 ],
-              ),
-            )));
+              )),
+          SizedBox(height: 30),
+          Container(
+              height: 110,
+              width: width,
+              child: Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      print('System');
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 110,
+                      width: 100,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 88,
+                            width: 88,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+                                boxShadow: [
+                                  BoxShadow(
+                                      offset: Offset(6, 6),
+                                      color: Colors.grey[300],
+                                      blurRadius: 5),
+                                  BoxShadow(
+                                      offset: Offset(-3, -3),
+                                      color: Colors.grey[300],
+                                      blurRadius: 10)
+                                ]),
+                            child: Container(
+                              height: 50,
+                              width: 50,
+                              alignment: Alignment.center,
+                              child: Image.asset(
+                                'assets/pngs/browser.png',
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 2),
+                          Container(
+                              child: Center(
+                            child: Text(
+                              'System',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.lightBlue),
+                            ),
+                          ))
+                        ],
+                      ),
+                    ),
+                  ),
+                  Spacer(),
+                  InkWell(
+                    onTap: () {
+                      print('Chat Screen');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) => ChatScreen())));
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 110,
+                      width: 100,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 88,
+                            width: 88,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+                                boxShadow: [
+                                  BoxShadow(
+                                      offset: Offset(6, 6),
+                                      color: Colors.grey[300],
+                                      blurRadius: 5),
+                                  BoxShadow(
+                                      offset: Offset(-3, -3),
+                                      color: Colors.grey[300],
+                                      blurRadius: 10)
+                                ]),
+                            child: Container(
+                              height: 50,
+                              width: 50,
+                              alignment: Alignment.center,
+                              child: Image.asset(
+                                'assets/pngs/chatbot.png',
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 2),
+                          Container(
+                              child: Center(
+                            child: Text(
+                              'Ask Amiga',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.lightBlue),
+                            ),
+                          ))
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              )),
+          Spacer(),
+          Container(
+              height: 40,
+              width: width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // InkWell(
+                  //     onTap: () {
+                  //       Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //               builder: ((context) => NotPageScreen())));
+                  //     },
+                  //     child: Container(
+                  //       height: 40,
+                  //       child: Icon(
+                  //         Icons.notifications,
+                  //         size: 30,
+                  //       ),
+                  //     )),
+                  InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: ((context) => SettingPage())));
+                      },
+                      child: Container(
+                        height: 40,
+                        child: Icon(
+                          Icons.settings,
+                          size: 30,
+                        ),
+                      )),
+                  InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: ((context) => ExitToAppPage())));
+                        //     exitAppConfirm();
+                      },
+                      child: Container(
+                        height: 40,
+                        child: Icon(
+                          Icons.exit_to_app_rounded,
+                          size: 30,
+                        ),
+                      )),
+                ],
+              )),
+          SizedBox(height: 10),
+        ],
+      ),
+    )));
   }
 
   Future<void> exitAppConfirm() async {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:marquina/Widgets/subCommonAppBar.dart';
 
 class HelpDetails extends StatefulWidget {
   @override
@@ -6,7 +7,24 @@ class HelpDetails extends StatefulWidget {
 }
 
 class _HelpDetailsState extends State<HelpDetails> {
-  Color backgroundColor = Colors.purple[900];
+  int currentHelpIndex = -1;
+
+  Map<int, dynamic> helps = {
+    0: {
+      'header': 'What the bot do',
+      'body':
+          'It meant to help user to understand the app better. And solve the quries.'
+    },
+    1: {
+      'header': 'What App Aims to do ?',
+      'body':
+          'This is user friendly App which solve the query with Chat Bot Interface.'
+    },
+    2: {
+      'header': 'Why is the Bot For ?',
+      'body': 'Bot is for updating the user in user friendly manner.'
+    },
+  };
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -15,51 +33,88 @@ class _HelpDetailsState extends State<HelpDetails> {
 
     return SafeArea(
         child: Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-        backgroundColor: backgroundColor,
-        title: Text('Help'),
-        actions: [
-          Center(
-            child: Text(
-              'junedr375',
-              style: TextStyle(fontSize: 16),
-            ),
-          ),
-          SizedBox(width: 10),
-        ],
-      ),
       body: Container(
           height: mainAxisHeight,
           width: width,
-          padding: EdgeInsets.symmetric(horizontal: 20),
           child: Column(children: [
+            Container(
+                color: Colors.white,
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: subCommonAppBar(context)),
             SizedBox(height: 20),
             Container(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Q) What the bot do ?',
-                  style: questionStyle(),
-                )),
-            Container(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  ' A)  It meant to help user to understand the app better. And solve the queries',
-                  style: answerStyle(),
-                )),
-            SizedBox(height: 20),
-            Container(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Q) What App Aims to do ?',
-                  style: questionStyle(),
-                )),
-            Container(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  ' A)  This is user friendly App which solve the query with Chat Bot Interface.',
-                  style: answerStyle(),
-                )),
+              height: mainAxisHeight * 0.25,
+              width: width,
+              child: Image.asset(
+                'assets/pngs/help.png',
+                fit: BoxFit.fitWidth,
+              ),
+            ),
+            SizedBox(height: 10),
+            for (int i = 0; i < helps.length; i++)
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    currentHelpIndex = i;
+                  });
+                },
+                child: Container(
+                    height: currentHelpIndex == i ? 170 : 70,
+                    width: width,
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    decoration: BoxDecoration(
+                        color: currentHelpIndex == i
+                            ? Color(0xffF89612)
+                            : Colors.white,
+                        border: Border(
+                          left: BorderSide(color: Color(0xffF89612), width: 5),
+                          top: BorderSide(color: Colors.lightBlue, width: 3),
+                          bottom: BorderSide(color: Colors.lightBlue, width: 3),
+                          right: BorderSide(color: Colors.lightBlue, width: 3),
+                        )),
+                    child: currentHelpIndex != i
+                        ? Row(
+                            children: [
+                              Text(
+                                'Q. ' + helps[i]['header'],
+                                style: questionStyle(),
+                              ),
+                              Spacer(),
+                              Icon(
+                                Icons.navigate_next,
+                                size: 30,
+                              )
+                            ],
+                          )
+                        : Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    'Q. ' + helps[i]['header'],
+                                    style: questionStyle(),
+                                  ),
+                                  Spacer(),
+                                  Icon(
+                                    Icons.navigate_next,
+                                    size: 30,
+                                  )
+                                ],
+                              ),
+                              Divider(
+                                color: Colors.lightBlue,
+                                thickness: 2,
+                              ),
+                              Text(
+                                'A. ' + helps[i]['body'],
+                                style: answerStyle(),
+                              ),
+                            ],
+                          )),
+              ),
           ])),
     ));
   }

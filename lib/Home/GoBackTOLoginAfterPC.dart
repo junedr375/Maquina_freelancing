@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marquina/Utils/Utility.dart';
+import 'package:marquina/Widgets/commonAppBar.dart';
+import 'package:marquina/Widgets/subCommonAppBar.dart';
 import 'package:marquina/auth/LoginPage.dart';
 
 class GoBackToLoginAfterPasswordChnage extends StatefulWidget {
@@ -16,33 +18,24 @@ class _GoBackToLoginAfterPasswordChnageState
     final width = MediaQuery.of(context).size.width;
     double mainAxisHeight = height > width ? height : width;
 
-    Color backgroundColor = Colors.purple[900];
-
     return SafeArea(
         child: Scaffold(
       backgroundColor: backgroundColor,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: backgroundColor,
-        title: Text(appName),
-        actions: [
-          Center(
-            child: Text(
-              'junedr375',
-              style: TextStyle(fontSize: 16),
-            ),
-          ),
-          SizedBox(width: 10),
-        ],
-      ),
       body: Container(
           height: mainAxisHeight,
           width: width,
-          padding: EdgeInsets.symmetric(horizontal: 40),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Container(height: 60, child: subCommonAppBar(context)),
+              SizedBox(height: 30),
+              Container(
+                  height: mainAxisHeight * 0.1,
+                  width: width,
+                  child: Image.asset(
+                    'assets/pngs/singleDot.png',
+                    fit: BoxFit.fitWidth,
+                  )),
+              SizedBox(height: 20),
               Text(
                 'Thank you',
                 style: textStyle(),
@@ -59,12 +52,11 @@ class _GoBackToLoginAfterPasswordChnageState
                       (route) => false);
                 },
                 child: Text(
-                  'click here to login again',
+                  'click here to login',
                   style: TextStyle(
-                      fontSize: 25,
+                      fontSize: 20,
                       fontWeight: FontWeight.w400,
-                      decoration: TextDecoration.underline,
-                      color: Colors.blue),
+                      color: Colors.grey[800]),
                 ),
               ),
               Text(
@@ -72,6 +64,34 @@ class _GoBackToLoginAfterPasswordChnageState
                 style: textStyle(),
               ),
               SizedBox(height: 30),
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  height: 40,
+                  width: 150,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(color: componentColor, boxShadow: [
+                    BoxShadow(
+                        offset: Offset(2, 5),
+                        color: Colors.grey[400],
+                        blurRadius: 10)
+                  ]),
+                  child: Text(
+                    'OK',
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                    width: width,
+                    child: Image.asset(
+                      'assets/pngs/threeDot.png',
+                      fit: BoxFit.fitWidth,
+                    )),
+              )
             ],
           )),
     ));
@@ -79,6 +99,6 @@ class _GoBackToLoginAfterPasswordChnageState
 
   TextStyle textStyle() {
     return TextStyle(
-        fontSize: 25, fontWeight: FontWeight.w400, color: Colors.white);
+        fontSize: 20, fontWeight: FontWeight.w400, color: Colors.lightBlue);
   }
 }

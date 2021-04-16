@@ -2,8 +2,8 @@
     package="com.junedr375.marquina">
        <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="Maquina"
-        android:icon="@mipmap/ic_launcher"
+        android:label="Maq Digital"
+        android:icon="@mipmap/logo"
         android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"
