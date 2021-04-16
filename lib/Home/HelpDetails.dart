@@ -37,11 +37,8 @@ class _HelpDetailsState extends State<HelpDetails> {
           height: mainAxisHeight,
           width: width,
           child: Column(children: [
-            Container(
-                color: Colors.white,
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: subCommonAppBar(context)),
-            SizedBox(height: 20),
+            Container(child: subCommonAppBar(context, 60)),
+            // SizedBox(height: 20),
             Container(
               height: mainAxisHeight * 0.25,
               width: width,

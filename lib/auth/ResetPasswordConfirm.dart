@@ -23,10 +23,7 @@ class _ResetPasswordConfirmState extends State<ResetPasswordConfirm> {
               child: Column(
                 children: [
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    height: 60,
-                    color: Colors.white,
-                    child: commonAppBar(),
+                    child: commonAppBar(60, 20),
                   ),
                   SizedBox(height: 20),
                   Container(

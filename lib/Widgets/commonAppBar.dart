@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:marquina/Utils/Utility.dart';
 
-Widget commonAppBar() {
+Widget commonAppBar(double height, double padding) {
   return Container(
-    height: 40,
-    // padding: EdgeInsets.symmetric(horizontal: 4),
+    height: height,
+    color: Colors.grey[100],
+    padding: EdgeInsets.symmetric(horizontal: padding),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -21,7 +22,7 @@ Widget commonAppBar() {
           width: 100,
           child: Image.asset(
             'assets/pngs/logoM.png',
-            fit: BoxFit.fitHeight,
+            fit: BoxFit.fitWidth,
           ),
         )
       ],

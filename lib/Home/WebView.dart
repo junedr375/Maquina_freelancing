@@ -23,8 +23,7 @@ class _WebViewDetailsState extends State<WebViewDetails> {
             body: Column(
       children: [
         Container(
-          height: 60,
-          child: subCommonAppBar(context),
+          child: subCommonAppBar(context, 60),
         ),
         Expanded(
             child: WebView(

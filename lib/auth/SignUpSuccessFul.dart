@@ -24,7 +24,7 @@ class _SignUpSuccessFulState extends State<SignUpSuccessFul> {
           children: [
             Container(
               padding: EdgeInsets.symmetric(horizontal: 20),
-              child: commonAppBar(),
+              child: commonAppBar(60, 20),
             ),
             SizedBox(height: 60),
             Container(

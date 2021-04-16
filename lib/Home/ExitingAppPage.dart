@@ -23,8 +23,7 @@ class _ExitingAppPageState extends State<ExitingAppPage> {
       body: Column(
         children: [
           Container(
-            height: 60,
-            child: subCommonAppBar(context),
+            child: subCommonAppBar(context, 60),
           ),
           Expanded(
             child: Image.asset('assets/pngs/thankYou.png', fit: BoxFit.fill),

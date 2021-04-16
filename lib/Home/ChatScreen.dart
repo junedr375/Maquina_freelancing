@@ -48,9 +48,7 @@ class _ChatScreenState extends State<ChatScreen> {
         body: ListView(
           children: [
             Container(
-              height: 60,
-              color: Colors.white,
-              child: subCommonAppBar(context),
+              child: subCommonAppBar(context, 60),
             ),
             Container(
                 height: MediaQuery.of(context).size.height * 0.78,

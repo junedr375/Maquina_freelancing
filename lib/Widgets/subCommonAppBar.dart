@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:marquina/Utils/Utility.dart';
 
-Widget subCommonAppBar(BuildContext context) {
+Widget subCommonAppBar(BuildContext context, double height) {
   return Container(
-    height: 40,
+    height: height,
+    color: Colors.grey[100],
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -20,9 +21,10 @@ Widget subCommonAppBar(BuildContext context) {
           width: 100,
           child: Image.asset(
             'assets/pngs/logoM.png',
-            fit: BoxFit.fitHeight,
+            fit: BoxFit.fitWidth,
           ),
-        )
+        ),
+        SizedBox(width: 20),
       ],
     ),
   );

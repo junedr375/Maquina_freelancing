@@ -26,7 +26,7 @@ class _GoBackToLoginAfterPasswordChnageState
           width: width,
           child: Column(
             children: [
-              Container(height: 60, child: subCommonAppBar(context)),
+              Container(child: subCommonAppBar(context, 60)),
               SizedBox(height: 30),
               Container(
                   height: mainAxisHeight * 0.1,

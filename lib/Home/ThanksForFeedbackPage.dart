@@ -19,8 +19,7 @@ class _ThanksForFeedbackPageState extends State<ThanksForFeedbackPage> {
       body: Column(
         children: [
           Container(
-            height: 60,
-            child: subCommonAppBar(context),
+            child: subCommonAppBar(context, 60),
           ),
           SizedBox(height: 50),
           Container(

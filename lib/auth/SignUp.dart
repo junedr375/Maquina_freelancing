@@ -52,8 +52,8 @@ class _SignUpPageState extends State<SignUpPage> {
               child: ListView(
                 children: [
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: commonAppBar(),
+                    //  padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: commonAppBar(60, 20),
                   ),
                   SizedBox(height: 10),
                   Container(

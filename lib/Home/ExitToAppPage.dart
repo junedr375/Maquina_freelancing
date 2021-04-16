@@ -10,8 +10,7 @@ class ExitToAppPage extends StatelessWidget {
       body: Column(
         children: [
           Container(
-            height: 60,
-            child: subCommonAppBar(context),
+            child: subCommonAppBar(context, 60),
           ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.25),
           Container(

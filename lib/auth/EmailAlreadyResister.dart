@@ -24,8 +24,8 @@ class _EmailAlreadyRegisterState extends State<EmailAlreadyRegister> {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: commonAppBar(),
+              //    padding: EdgeInsets.symmetric(horizontal: 20),
+              child: commonAppBar(60, 20),
             ),
             SizedBox(height: 60),
             Container(

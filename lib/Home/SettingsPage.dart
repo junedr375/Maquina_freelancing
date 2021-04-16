@@ -41,7 +41,7 @@ class _SettingPageState extends State<SettingPage> {
                       width: 40,
                       child: Image.asset(
                         'assets/pngs/settings.png',
-                        fit: BoxFit.fitHeight,
+                        fit: BoxFit.fitWidth,
                       ),
                     ),
                   ),
@@ -51,7 +51,7 @@ class _SettingPageState extends State<SettingPage> {
                     width: 100,
                     child: Image.asset(
                       'assets/pngs/logoM.png',
-                      fit: BoxFit.fitHeight,
+                      fit: BoxFit.fitWidth,
                     ),
                   )
                 ],
