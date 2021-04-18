@@ -202,12 +202,12 @@ class _LoginPageState extends State<LoginPage> {
                               if (isCredCorrect) SizedBox(height: 50),
                               InkWell(
                                 onTap: () {
-                                  //   login();
-                                  Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: ((context) => HomePage())),
-                                      (Route<dynamic> route) => false);
+                                  login();
+                                  // Navigator.pushAndRemoveUntil(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: ((context) => HomePage())),
+                                  //     (Route<dynamic> route) => false);
                                 },
                                 child: Container(
                                   height: 40,

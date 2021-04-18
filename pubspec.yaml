@@ -53,7 +53,7 @@ flutter:
     - assets/pngs/login.png
     - assets/pngs/signUp.png
     - assets/pngs/logoM.png
-    - assets/pngs/logoM.png
+    - assets/pngs/logo.png
     - assets/pngs/nextArrow.png
     - assets/pngs/resetPasword.png
     - assets/pngs/send.png

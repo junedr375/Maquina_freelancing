@@ -33,6 +33,7 @@ class _HelpDetailsState extends State<HelpDetails> {
 
     return SafeArea(
         child: Scaffold(
+      backgroundColor: Colors.white,
       body: Container(
           height: mainAxisHeight,
           width: width,
@@ -40,11 +41,11 @@ class _HelpDetailsState extends State<HelpDetails> {
             Container(child: subCommonAppBar(context, 60)),
             // SizedBox(height: 20),
             Container(
-              height: mainAxisHeight * 0.25,
+              height: mainAxisHeight * 0.30,
               width: width,
               child: Image.asset(
                 'assets/pngs/help.png',
-                fit: BoxFit.fitWidth,
+                fit: BoxFit.contain,
               ),
             ),
             SizedBox(height: 10),
