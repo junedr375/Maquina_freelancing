@@ -25,16 +25,27 @@ class _ResetPasswordConfirmState extends State<ResetPasswordConfirm> {
                   Container(
                     child: commonAppBar(60, 20),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 120),
+                  // Container(
+                  //   height: mainAxisHeight * 0.55,
+                  //   padding: EdgeInsets.symmetric(horizontal: 20),
+                  //   width: width,
+                  //   child: Image.asset(
+                  //     'assets/pngs/resetPasword.png',
+                  //     fit: BoxFit.fill,
+                  //   ),
+                  // ),
                   Container(
-                    height: mainAxisHeight * 0.55,
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    width: width,
-                    child: Image.asset(
-                      'assets/pngs/resetPasword.png',
-                      fit: BoxFit.fill,
+                      child: Center(
+                    child: Text(
+                      'You will recieve a\npassword of your email\nid registered with us.\n\n\n Thank you',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w600,
+                          color: componentColor),
                     ),
-                  ),
+                  )),
                   SizedBox(height: 50),
                   InkWell(
                     onTap: () {

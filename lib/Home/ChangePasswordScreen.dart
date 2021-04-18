@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:marquina/Home/GoBackTOLoginAfterPC.dart';
 import 'package:marquina/Utils/Utility.dart';
+import 'package:marquina/Widgets/boxDecoration.dart';
 import 'package:marquina/Widgets/commonAppBar.dart';
+import 'package:marquina/Widgets/inputDecoration.dart';
 import 'package:marquina/Widgets/subCommonAppBar.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
@@ -49,28 +51,18 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               Container(
                                 height: 50,
                                 width: width,
-                                //padding: EdgeInsets.only(left: 20),
+                                decoration: auhtBoxDecoration(),
                                 child: TextFormField(
                                   controller: oldPasswordController,
                                   cursorColor: componentColor,
-                                  decoration: InputDecoration(
-                                      fillColor: componentColor,
-                                      prefixIcon: Icon(
-                                        Icons.lock,
-                                        color: componentColor,
-                                        size: 20,
-                                      ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: componentColor),
-                                      ),
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: componentColor),
-                                      ),
-                                      hintText: 'Old Password',
-                                      hintStyle: TextStyle(
-                                          fontSize: 20, color: componentColor)),
+                                  decoration: authInputDecoration(
+                                    'Old Password',
+                                    Icon(
+                                      Icons.lock,
+                                      color: componentColor,
+                                      size: 20,
+                                    ),
+                                  ),
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w400,
@@ -81,28 +73,19 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               Container(
                                 height: 50,
                                 width: width,
+                                decoration: auhtBoxDecoration(),
                                 //padding: EdgeInsets.only(left: 20),
                                 child: TextFormField(
                                   controller: newPasswordController,
                                   cursorColor: componentColor,
-                                  decoration: InputDecoration(
-                                      fillColor: componentColor,
-                                      prefixIcon: Icon(
-                                        Icons.lock,
-                                        color: componentColor,
-                                        size: 20,
-                                      ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: componentColor),
-                                      ),
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: componentColor),
-                                      ),
-                                      hintText: 'New Password',
-                                      hintStyle: TextStyle(
-                                          fontSize: 20, color: componentColor)),
+                                  decoration: authInputDecoration(
+                                    'New Password',
+                                    Icon(
+                                      Icons.lock,
+                                      color: componentColor,
+                                      size: 20,
+                                    ),
+                                  ),
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w400,
@@ -113,28 +96,20 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               Container(
                                 height: 50,
                                 width: width,
+                                decoration: auhtBoxDecoration(),
                                 //padding: EdgeInsets.only(left: 20),
+                                //dec
                                 child: TextFormField(
                                   controller: newPasswordAgainController,
                                   cursorColor: componentColor,
-                                  decoration: InputDecoration(
-                                      fillColor: componentColor,
-                                      prefixIcon: Icon(
-                                        Icons.lock,
-                                        color: componentColor,
-                                        size: 20,
-                                      ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: componentColor),
-                                      ),
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: componentColor),
-                                      ),
-                                      hintText: 'Retype New Password',
-                                      hintStyle: TextStyle(
-                                          fontSize: 20, color: componentColor)),
+                                  decoration: authInputDecoration(
+                                    'Retype New Password',
+                                    Icon(
+                                      Icons.lock,
+                                      color: componentColor,
+                                      size: 20,
+                                    ),
+                                  ),
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w400,

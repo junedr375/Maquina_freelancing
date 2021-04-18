@@ -3,7 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:marquina/Home/HomePage.dart';
 import 'package:marquina/Utils/Utility.dart';
+import 'package:marquina/Utils/validators.dart';
+import 'package:marquina/Widgets/boxDecoration.dart';
 import 'package:marquina/Widgets/commonAppBar.dart';
+import 'package:marquina/Widgets/inputDecoration.dart';
 import 'package:marquina/auth/FaceRecognisation.dart';
 import 'package:marquina/auth/ForgotPassword.dart';
 
@@ -59,19 +62,21 @@ class _LoginPageState extends State<LoginPage> {
                           padding: EdgeInsets.symmetric(horizontal: 40),
                           child: ListView(
                             children: [
-                              SizedBox(height: mainAxisHeight * 0.10),
+                              if (!isCredCorrect)
+                                SizedBox(height: mainAxisHeight * 0.05),
                               Container(
                                   child: isCredCorrect
                                       ? Column(
                                           children: [
-                                            Center(
-                                                child: Text('Maquina',
-                                                    style: TextStyle(
-                                                        fontSize: 25,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                        color:
-                                                            Colors.grey[800]))),
+                                            Container(
+                                                height: mainAxisHeight * 0.18,
+                                                width: width,
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 60),
+                                                child: Image.asset(
+                                                  'assets/pngs/logo.png',
+                                                  fit: BoxFit.fitHeight,
+                                                )),
                                             SizedBox(height: 10),
                                             Center(
                                                 child: Text(
@@ -82,14 +87,14 @@ class _LoginPageState extends State<LoginPage> {
                                                         fontWeight:
                                                             FontWeight.w400))),
                                             SizedBox(
-                                                height: mainAxisHeight * 0.04),
+                                                height: mainAxisHeight * 0.02),
                                             InkWell(
                                               onTap: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: ((context) =>
-                                                            FaceRecognization())));
+                                                //     Navigator.push(
+                                                //         context,
+                                                //         MaterialPageRoute(
+                                                //             builder: ((context) =>
+                                                //                 FaceRecognization())));
                                               },
                                               child: Container(
                                                   height: 60,
@@ -118,35 +123,25 @@ class _LoginPageState extends State<LoginPage> {
                                           ))),
                               SizedBox(
                                   height: isCredCorrect
-                                      ? mainAxisHeight * 0.1
+                                      ? mainAxisHeight * 0.05
                                       : mainAxisHeight * 0.05),
                               SizedBox(height: 10),
                               Container(
                                 height: 50,
                                 width: width,
-                                //    padding: EdgeInsets.only(left: 20),
+                                decoration: auhtBoxDecoration(),
                                 child: TextFormField(
                                   controller: usernameController,
                                   cursorColor: componentColor,
                                   validator: validateEmail,
-                                  decoration: InputDecoration(
-                                      fillColor: componentColor,
-                                      prefixIcon: Icon(
-                                        Icons.people_alt_sharp,
-                                        color: componentColor,
-                                        size: 20,
-                                      ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: componentColor),
-                                      ),
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: componentColor),
-                                      ),
-                                      hintText: 'Username',
-                                      hintStyle: TextStyle(
-                                          fontSize: 20, color: componentColor)),
+                                  decoration: authInputDecoration(
+                                    'Email Id',
+                                    Icon(
+                                      Icons.people_alt_sharp,
+                                      color: componentColor,
+                                      size: 20,
+                                    ),
+                                  ),
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w400,
@@ -157,13 +152,17 @@ class _LoginPageState extends State<LoginPage> {
                               Container(
                                 height: 50,
                                 width: width,
-                                //padding: EdgeInsets.only(left: 20),
+                                decoration: auhtBoxDecoration(),
                                 child: TextFormField(
                                   controller: passwordController,
                                   cursorColor: componentColor,
                                   obscureText: isObscure,
+                                  validator: (value) => value.length <= 5
+                                      ? '         Atleast 6 character'
+                                      : null,
                                   decoration: InputDecoration(
                                       fillColor: componentColor,
+                                      border: InputBorder.none,
                                       prefixIcon: InkWell(
                                         onTap: () {
                                           setState(() {
@@ -178,15 +177,9 @@ class _LoginPageState extends State<LoginPage> {
                                           size: 20,
                                         ),
                                       ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: componentColor),
-                                      ),
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: componentColor),
-                                      ),
                                       hintText: 'Password',
+                                      errorStyle: TextStyle(
+                                          color: Colors.red, fontSize: 10),
                                       hintStyle: TextStyle(
                                           fontSize: 20, color: componentColor)),
                                   style: TextStyle(
@@ -202,18 +195,19 @@ class _LoginPageState extends State<LoginPage> {
                                   'Please provide correct details',
                                   style: TextStyle(
                                       fontSize: 18,
-                                      color: Colors.blue,
+                                      color: Colors.red,
                                       fontWeight: FontWeight.w600),
                                 )),
                               if (!isCredCorrect) SizedBox(height: 30),
                               if (isCredCorrect) SizedBox(height: 50),
                               InkWell(
                                 onTap: () {
-                                  login();
-
-                                  // print('hello');
-                                  // Navigator.pushReplacement(context,
-                                  //   MaterialPageRoute(builder: ((context) => HomePage())));
+                                  //   login();
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: ((context) => HomePage())),
+                                      (Route<dynamic> route) => false);
                                 },
                                 child: Container(
                                   height: 40,
@@ -280,41 +274,40 @@ class _LoginPageState extends State<LoginPage> {
                     ])))));
   }
 
-  String validateEmail(String value) {
-    Pattern pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(pattern);
-    return (!regex.hasMatch(value)) ? 'Enter Valid Mail' : null;
-  }
-
   void login() async {
-    setState(() {
-      isCredCorrect = true;
-    });
-    print('Hello');
-    String apiUrl = 'http://52.14.154.197:8000/user/login/';
+    final formState = _formKey.currentState;
+    if (formState.validate()) {
+      try {
+        setState(() {
+          isCredCorrect = true;
+        });
+        print('Hello');
+        String apiUrl = 'http://52.14.154.197:8000/user/login/';
 
-    var res = await http.post(Uri.parse(apiUrl), body: {
-      'email': usernameController.text.trim(),
-      'password': passwordController.text.trim(),
-    });
+        var res = await http.post(Uri.parse(apiUrl), body: {
+          'email': usernameController.text.trim(),
+          'password': passwordController.text.trim(),
+        });
 
-    var result = jsonDecode(res.body);
-    print(result);
+        var result = jsonDecode(res.body);
+        print(result);
 
-    if (result['status'] == 200) {
-      setState(() {
-        isCredCorrect = true;
-      });
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: ((context) => HomePage())),
-          (Route<dynamic> route) => false);
-    } else {
-      // showCredentialError(result['message']);
-      setState(() {
-        isCredCorrect = false;
-      });
+        if (result['status'] == 200) {
+          setState(() {
+            isCredCorrect = true;
+          });
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: ((context) => HomePage())),
+              (Route<dynamic> route) => false);
+        } else {
+          setState(() {
+            isCredCorrect = false;
+          });
+        }
+      } catch (e) {
+        print(e.toString());
+      }
     }
   }
 

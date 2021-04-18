@@ -3,11 +3,15 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:marquina/Utils/Utility.dart';
+
+import 'package:marquina/Widgets/boxDecoration.dart';
 import 'package:marquina/Widgets/commonAppBar.dart';
-import 'package:marquina/auth/AuthMessages.dart';
+import 'package:marquina/Widgets/inputDecoration.dart';
+
 import 'package:http/http.dart' as http;
 import 'package:marquina/auth/EmailAlreadyResister.dart';
-import 'package:marquina/auth/LoginPage.dart';
+
+import 'package:marquina/auth/ReachToHR.dart';
 import 'package:marquina/auth/SignUpSuccessFul.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -57,38 +61,40 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   SizedBox(height: 10),
                   Container(
-                    height: mainAxisHeight * 0.3,
-                    width: width,
-                    child: Image.asset(
-                      'assets/pngs/signUp.png',
-                      fit: BoxFit.fill,
-                    ),
-                  ),
+                      height: mainAxisHeight * 0.3,
+                      width: width,
+                      child: Center(
+                          child: Text(
+                        'Sign Up',
+                        style: TextStyle(
+                            color: Colors.lightBlue,
+                            fontSize: 30,
+                            fontWeight: FontWeight.w800),
+                      ))
+
+                      //  Image.asset(
+                      //   'assets/pngs/signUp.png',
+                      //   fit: BoxFit.fill,
+                      // ),
+                      ),
                   SizedBox(height: 20),
                   Container(
                     height: 50,
                     width: width,
-                    padding: EdgeInsets.symmetric(horizontal: 30),
+                    decoration: auhtBoxDecoration(),
+                    margin: EdgeInsets.symmetric(horizontal: 30),
                     child: TextFormField(
                       controller: usernameController,
                       cursorColor: componentColor,
-                      validator: validateEmail,
-                      decoration: InputDecoration(
-                          fillColor: componentColor,
-                          prefixIcon: Icon(
-                            Icons.email,
-                            color: componentColor,
-                            size: 22,
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: componentColor),
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: componentColor),
-                          ),
-                          hintText: 'Email id',
-                          hintStyle:
-                              TextStyle(fontSize: 20, color: componentColor)),
+                      validator: validateEmailhere,
+                      decoration: authInputDecoration(
+                        'Email Id',
+                        Icon(
+                          Icons.email,
+                          color: componentColor,
+                          size: 22,
+                        ),
+                      ),
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w400,
@@ -96,37 +102,31 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                   SizedBox(height: 20),
-                  Container(
-                    height: 50,
-                    width: width,
-                    padding: EdgeInsets.symmetric(horizontal: 30),
-                    child: TextFormField(
-                      controller: passwordController,
-                      cursorColor: componentColor,
-                      validator: (val) =>
-                          val.length < 6 ? 'Atleast 6 character' : null,
-                      decoration: InputDecoration(
-                          fillColor: componentColor,
-                          prefixIcon: Icon(
-                            Icons.remove_red_eye,
-                            color: componentColor,
-                            size: 22,
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: componentColor),
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: componentColor),
-                          ),
-                          hintText: 'Password',
-                          hintStyle:
-                              TextStyle(fontSize: 20, color: componentColor)),
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 22),
-                    ),
-                  ),
+                  // Container(
+                  //   height: 50,
+                  //   width: width,
+                  //   decoration: auhtBoxDecoration(),
+                  //   //  padding: EdgeInsets.symmetric(horizontal: 20),
+                  //   margin: EdgeInsets.symmetric(horizontal: 30),
+                  //   child: TextFormField(
+                  //     controller: passwordController,
+                  //     cursorColor: componentColor,
+                  //     validator: (val) =>
+                  //         val.length < 6 ? '        Atleast 6 character' : null,
+                  //     decoration: authInputDecoration(
+                  //       'Password',
+                  //       Icon(
+                  //         Icons.remove_red_eye,
+                  //         color: componentColor,
+                  //         size: 22,
+                  //       ),
+                  //     ),
+                  //     style: TextStyle(
+                  //         color: Colors.black,
+                  //         fontWeight: FontWeight.w400,
+                  //         fontSize: 22),
+                  //   ),
+                  // ),
                   // Container(
                   //   height: 50,
                   //   width: width,
@@ -197,11 +197,12 @@ class _SignUpPageState extends State<SignUpPage> {
     ));
   }
 
-  String validateEmail(String value) {
+  String validateEmailhere(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    //r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@maq.ai$';
     RegExp regex = new RegExp(pattern);
-    return (!regex.hasMatch(value)) ? 'Enter Valid Mail' : null;
+    return (!regex.hasMatch(value)) ? '         *Enter Valid Mail' : null;
   }
 
   TextStyle textStyle() {
@@ -209,33 +210,45 @@ class _SignUpPageState extends State<SignUpPage> {
         fontSize: 25, fontWeight: FontWeight.w400, color: Colors.white);
   }
 
+  bool validDomain() {
+    String domain = usernameController.text.split('@')[1];
+    print(domain);
+    return domain == 'maq.ai';
+  }
+
   void signUp() async {
     if (_formKey.currentState.validate()) {
       try {
-        String apiUrl = 'http://52.14.154.197:8000/user/register/';
+        if (validDomain()) {
+          String apiUrl = 'http://52.14.154.197:8000/user/register/';
 
-        var res = await http.post(Uri.parse(apiUrl), body: {
-          'email': usernameController.text.trim(),
-          'password': passwordController.text.trim(),
-          'phone': '1234567890',
-          'firstName': 'Upman',
-          'lastName': 'Tech'
-        });
+          var res = await http.post(Uri.parse(apiUrl), body: {
+            'email': usernameController.text.trim(),
+            'password': '',
+            'phone': '1234567890',
+            'firstName': 'Upman',
+            'lastName': 'Tech'
+          });
 
-        var result = jsonDecode(res.body);
-        print(result);
+          var result = jsonDecode(res.body);
+          print(result);
 
-        if (result['message'] == 'You have successfully registered') {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: ((context) => SignUpSuccessFul())));
-        }
-        if (result['message'] == 'Email Already Register') {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: ((context) => EmailAlreadyRegister())));
+          if (result['message'] ==
+              'You have successfully registered and passsword is sent to email please login') {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: ((context) => SignUpSuccessFul())));
+          }
+          if (result['message'] == 'Email Already Register') {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: ((context) => EmailAlreadyRegister())));
+          } else {
+            //        showCredentialError(result['message'].toString());
+          }
         } else {
-          //        showCredentialError(result['message'].toString());
+          Navigator.push(
+              context, MaterialPageRoute(builder: ((context) => ReachToHR())));
         }
       } catch (e) {}
     } else {}

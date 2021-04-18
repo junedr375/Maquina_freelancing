@@ -56,6 +56,10 @@ class _HomePageState extends State<HomePage> {
                         InkWell(
                           onTap: () {
                             print('HR Policies');
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: ((context) => ChatScreen())));
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -110,6 +114,10 @@ class _HomePageState extends State<HomePage> {
                         InkWell(
                           onTap: () {
                             print('Bussiness');
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: ((context) => ChatScreen())));
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -171,6 +179,10 @@ class _HomePageState extends State<HomePage> {
                         InkWell(
                           onTap: () {
                             print('System');
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: ((context) => ChatScreen())));
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -288,20 +300,20 @@ class _HomePageState extends State<HomePage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // InkWell(
-                        //     onTap: () {
-                        //       Navigator.push(
-                        //           context,
-                        //           MaterialPageRoute(
-                        //               builder: ((context) => NotPageScreen())));
-                        //     },
-                        //     child: Container(
-                        //       height: 40,
-                        //       child: Icon(
-                        //         Icons.notifications,
-                        //         size: 30,
-                        //       ),
-                        //     )),
+                        InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: ((context) => NotPageScreen())));
+                            },
+                            child: Container(
+                              height: 40,
+                              child: Icon(
+                                Icons.notifications,
+                                size: 30,
+                              ),
+                            )),
                         InkWell(
                             onTap: () {
                               Navigator.push(

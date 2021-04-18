@@ -63,7 +63,7 @@ class _HelpDetailsState extends State<HelpDetails> {
                     margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     decoration: BoxDecoration(
                         color: currentHelpIndex == i
-                            ? Color(0xffF89612)
+                            ? Colors.blue[200]
                             : Colors.white,
                         border: Border(
                           left: BorderSide(color: Color(0xffF89612), width: 5),

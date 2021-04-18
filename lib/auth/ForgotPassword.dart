@@ -3,9 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:marquina/Home/HomePage.dart';
 import 'package:marquina/Utils/Utility.dart';
+import 'package:marquina/Utils/validators.dart';
+import 'package:marquina/Widgets/boxDecoration.dart';
 import 'package:marquina/Widgets/commonAppBar.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:marquina/Widgets/inputDecoration.dart';
 import 'package:marquina/auth/ResetPasswordConfirm.dart';
 import 'package:marquina/auth/SignUp.dart';
 import 'package:http/http.dart' as http;
@@ -45,7 +48,7 @@ class ForgotPasswordState extends State<ForgotPassword> {
                     SizedBox(height: mainAxisHeight * 0.10),
                     Container(
                         child: Center(
-                      child: Text('Password Reset',
+                      child: Text('Forgot Password',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               letterSpacing: 1,
@@ -70,26 +73,20 @@ class ForgotPasswordState extends State<ForgotPassword> {
                     Container(
                       height: 50,
                       width: width,
+                      decoration: auhtBoxDecoration(),
                       //    padding: EdgeInsets.only(left: 20),
                       child: TextFormField(
                         controller: usernameController,
                         cursorColor: componentColor,
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.email,
-                              color: componentColor,
-                              size: 25,
-                            ),
-                            fillColor: componentColor,
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: componentColor),
-                            ),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: componentColor),
-                            ),
-                            hintText: 'Email ID',
-                            hintStyle:
-                                TextStyle(fontSize: 20, color: componentColor)),
+                        validator: validateEmail,
+                        decoration: authInputDecoration(
+                          'Email Id',
+                          Icon(
+                            Icons.email,
+                            color: componentColor,
+                            size: 25,
+                          ),
+                        ),
                         style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w400,
@@ -99,11 +96,7 @@ class ForgotPasswordState extends State<ForgotPassword> {
                     SizedBox(height: 90),
                     InkWell(
                       onTap: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: ((context) =>
-                                    ResetPasswordConfirm())));
+                        forgotPasswordFunction();
                       },
                       child: Container(
                         child: Container(
@@ -129,5 +122,18 @@ class ForgotPasswordState extends State<ForgotPassword> {
             ])),
       ),
     ));
+  }
+
+  void forgotPasswordFunction() {
+    final formState = _formKey.currentState;
+
+    if (formState.validate()) {
+      try {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: ((context) => ResetPasswordConfirm())));
+      } catch (e) {
+        print(e.toString());
+      }
+    }
   }
 }

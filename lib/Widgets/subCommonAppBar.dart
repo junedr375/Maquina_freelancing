@@ -10,8 +10,7 @@ Widget subCommonAppBar(BuildContext context, double height) {
       children: [
         SizedBox(width: 20),
         IconButton(
-            icon: Icon(Icons.arrow_forward_outlined,
-                size: 25, color: Colors.grey[800]),
+            icon: Icon(Icons.arrow_back, size: 25, color: Colors.grey[800]),
             onPressed: () {
               Navigator.pop(context);
             }),
