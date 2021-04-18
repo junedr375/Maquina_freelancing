@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:marquina/Home/GoBackTOLoginAfterPC.dart';
 import 'package:marquina/Utils/Utility.dart';
+import 'package:marquina/Utils/helperFunction.dart';
 import 'package:marquina/Widgets/boxDecoration.dart';
-import 'package:marquina/Widgets/commonAppBar.dart';
-import 'package:marquina/Widgets/inputDecoration.dart';
+
 import 'package:marquina/Widgets/subCommonAppBar.dart';
+import 'package:http/http.dart' as http;
 
 class ChangePasswordScreen extends StatefulWidget {
   @override
@@ -18,6 +18,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   TextEditingController oldPasswordController = TextEditingController();
   TextEditingController newPasswordController = TextEditingController();
   TextEditingController newPasswordAgainController = TextEditingController();
+
+  bool isObscure1 = true;
+  bool isObscure2 = true;
+  bool isObscure3 = true;
 
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -53,16 +57,34 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 width: width,
                                 decoration: auhtBoxDecoration(),
                                 child: TextFormField(
+                                  obscureText: isObscure1,
                                   controller: oldPasswordController,
                                   cursorColor: componentColor,
-                                  decoration: authInputDecoration(
-                                    'Old Password',
-                                    Icon(
-                                      Icons.lock,
-                                      color: componentColor,
-                                      size: 20,
-                                    ),
-                                  ),
+                                  validator: (value) => value.isEmpty
+                                      ? "      *Can't be empty"
+                                      : null,
+                                  decoration: InputDecoration(
+                                      fillColor: componentColor,
+                                      border: InputBorder.none,
+                                      prefixIcon: InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            isObscure1 = !isObscure1;
+                                          });
+                                        },
+                                        child: Icon(
+                                          isObscure1
+                                              ? Icons.lock
+                                              : Icons.lock_open,
+                                          color: componentColor,
+                                          size: 20,
+                                        ),
+                                      ),
+                                      hintText: 'Old Password',
+                                      errorStyle: TextStyle(
+                                          color: Colors.red, fontSize: 10),
+                                      hintStyle: TextStyle(
+                                          fontSize: 20, color: componentColor)),
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w400,
@@ -74,18 +96,35 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 height: 50,
                                 width: width,
                                 decoration: auhtBoxDecoration(),
-                                //padding: EdgeInsets.only(left: 20),
                                 child: TextFormField(
                                   controller: newPasswordController,
                                   cursorColor: componentColor,
-                                  decoration: authInputDecoration(
-                                    'New Password',
-                                    Icon(
-                                      Icons.lock,
-                                      color: componentColor,
-                                      size: 20,
-                                    ),
-                                  ),
+                                  validator: (value) => value.length <= 5
+                                      ? '      * Atleast 6 Character long'
+                                      : null,
+                                  obscureText: isObscure2,
+                                  decoration: InputDecoration(
+                                      fillColor: componentColor,
+                                      border: InputBorder.none,
+                                      prefixIcon: InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            isObscure2 = !isObscure2;
+                                          });
+                                        },
+                                        child: Icon(
+                                          isObscure2
+                                              ? Icons.lock
+                                              : Icons.lock_open,
+                                          color: componentColor,
+                                          size: 20,
+                                        ),
+                                      ),
+                                      hintText: 'New Password',
+                                      errorStyle: TextStyle(
+                                          color: Colors.red, fontSize: 10),
+                                      hintStyle: TextStyle(
+                                          fontSize: 20, color: componentColor)),
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w400,
@@ -97,19 +136,33 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 height: 50,
                                 width: width,
                                 decoration: auhtBoxDecoration(),
-                                //padding: EdgeInsets.only(left: 20),
-                                //dec
                                 child: TextFormField(
                                   controller: newPasswordAgainController,
                                   cursorColor: componentColor,
-                                  decoration: authInputDecoration(
-                                    'Retype New Password',
-                                    Icon(
-                                      Icons.lock,
-                                      color: componentColor,
-                                      size: 20,
-                                    ),
-                                  ),
+                                  validator: passwordValidate,
+                                  obscureText: isObscure3,
+                                  decoration: InputDecoration(
+                                      fillColor: componentColor,
+                                      border: InputBorder.none,
+                                      prefixIcon: InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            isObscure3 = !isObscure3;
+                                          });
+                                        },
+                                        child: Icon(
+                                          isObscure3
+                                              ? Icons.lock
+                                              : Icons.lock_open,
+                                          color: componentColor,
+                                          size: 20,
+                                        ),
+                                      ),
+                                      hintText: 'Retype New Password',
+                                      errorStyle: TextStyle(
+                                          color: Colors.red, fontSize: 10),
+                                      hintStyle: TextStyle(
+                                          fontSize: 20, color: componentColor)),
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w400,
@@ -119,11 +172,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               SizedBox(height: 50),
                               InkWell(
                                 onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: ((context) =>
-                                              GoBackToLoginAfterPasswordChnage())));
+                                  changePassword();
                                 },
                                 child: Container(
                                   height: 40,
@@ -153,14 +202,36 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     ])))));
   }
 
-  void showCredentialError() {
-    Fluttertoast.showToast(
-        msg: 'Please provide correct details',
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 2,
-        backgroundColor: Colors.white,
-        textColor: Colors.red,
-        fontSize: 16.0);
+  String passwordValidate(String val) {
+    return newPasswordController.text != newPasswordAgainController.text
+        ? '         * New Password Mismatch'
+        : null;
+  }
+
+  void changePassword() async {
+    String username = await getUsername();
+    if (username != '') {
+      final formState = _formKey.currentState;
+      if (formState.validate()) {
+        try {
+          var res = await http.post(
+              Uri.parse('http://52.14.154.197:8000/user/update-password'),
+              body: {
+                "email": username,
+                "password": newPasswordController.text.trim(),
+                "old_password": oldPasswordController.text.trim()
+              });
+          if (res.statusCode == 200) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: ((context) =>
+                        GoBackToLoginAfterPasswordChnage())));
+          }
+        } catch (e) {
+          print(e.toString());
+        }
+      }
+    }
   }
 }

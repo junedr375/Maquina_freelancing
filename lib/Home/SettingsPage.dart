@@ -4,6 +4,7 @@ import 'package:marquina/Home/GoToTCPage.dart';
 import 'package:marquina/Home/HelpDetails.dart';
 import 'package:marquina/Home/RateThisApp.dart';
 import 'package:marquina/Home/WebView.dart';
+import 'package:marquina/Utils/helperFunction.dart';
 import 'package:marquina/auth/LoginPage.dart';
 
 class SettingPage extends StatefulWidget {
@@ -122,6 +123,10 @@ class _SettingPageState extends State<SettingPage> {
             SizedBox(height: 20),
             InkWell(
                 onTap: () {
+                  setLogin(false);
+                  setUseId('');
+                  setUsername('');
+
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (context) => LoginPage()),

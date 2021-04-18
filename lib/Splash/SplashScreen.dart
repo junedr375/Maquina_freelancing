@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:marquina/Home/HomePage.dart';
+import 'package:marquina/Utils/helperFunction.dart';
 import 'package:marquina/auth/LoginPage.dart';
 import '../Utils/Utility.dart';
 
@@ -9,13 +11,26 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  bool isLoggedIn = false;
   @override
   void initState() {
-    Future.delayed(
-        Duration(seconds: 2),
-        () => Navigator.pushReplacement(
-            context, CupertinoPageRoute(builder: ((context) => LoginPage()))));
+    getLoginValue();
     super.initState();
+  }
+
+  void getLoginValue() async {
+    isLoggedIn = await getLogin();
+    if (!isLoggedIn) {
+      Future.delayed(
+          Duration(seconds: 2),
+          () => Navigator.pushReplacement(context,
+              CupertinoPageRoute(builder: ((context) => LoginPage()))));
+    } else {
+      Future.delayed(
+          Duration(seconds: 2),
+          () => Navigator.pushReplacement(
+              context, CupertinoPageRoute(builder: ((context) => HomePage()))));
+    }
   }
 
   @override

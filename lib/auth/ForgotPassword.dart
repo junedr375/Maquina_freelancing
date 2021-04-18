@@ -9,6 +9,7 @@ import 'package:marquina/Widgets/commonAppBar.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:marquina/Widgets/inputDecoration.dart';
+import 'package:marquina/auth/ReachToHR.dart';
 import 'package:marquina/auth/ResetPasswordConfirm.dart';
 import 'package:marquina/auth/SignUp.dart';
 import 'package:http/http.dart' as http;
@@ -74,7 +75,6 @@ class ForgotPasswordState extends State<ForgotPassword> {
                       height: 50,
                       width: width,
                       decoration: auhtBoxDecoration(),
-                      //    padding: EdgeInsets.only(left: 20),
                       child: TextFormField(
                         controller: usernameController,
                         cursorColor: componentColor,
@@ -102,16 +102,7 @@ class ForgotPasswordState extends State<ForgotPassword> {
                         child: Container(
                             height: 40,
                             width: 40,
-                            // margin: EdgeInsets.symmetric(horizontal: 80),
                             alignment: Alignment.center,
-                            // decoration: BoxDecoration(
-                            //     color: componentColor,
-                            //     boxShadow: [
-                            //       BoxShadow(
-                            //           offset: Offset(2, 5),
-                            //           color: Colors.grey[400],
-                            //           blurRadius: 10)
-                            //     ]),
                             child: Image.asset('assets/pngs/nextArrow.png')),
                       ),
                     ),
@@ -124,13 +115,28 @@ class ForgotPasswordState extends State<ForgotPassword> {
     ));
   }
 
-  void forgotPasswordFunction() {
+  void forgotPasswordFunction() async {
     final formState = _formKey.currentState;
 
     if (formState.validate()) {
       try {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: ((context) => ResetPasswordConfirm())));
+        if (usernameController.text.split('@')[1] == 'maq.ai') {
+          print(usernameController.text);
+          var response = await http.post(
+              Uri.parse('http://52.14.154.197:8000/user/forgot-password/'),
+              body: {"email": usernameController.text});
+
+          print(json.decode(response.body));
+          if (response.statusCode == 200) {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: ((context) => ResetPasswordConfirm())));
+          }
+        } else {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: ((context) => ReachToHR())));
+        }
       } catch (e) {
         print(e.toString());
       }
