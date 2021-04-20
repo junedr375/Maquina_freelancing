@@ -220,7 +220,8 @@ class _SignUpPageState extends State<SignUpPage> {
     if (_formKey.currentState.validate()) {
       try {
         if (validDomain()) {
-          String apiUrl = 'http://52.14.154.197:8000/user/register/';
+          //     String apiUrl = 'http://52.14.154.197:8000/user/register/';
+          String apiUrl = baseUrl + 'user/register/';
 
           var res = await http.post(Uri.parse(apiUrl), body: {
             'email': usernameController.text.trim(),

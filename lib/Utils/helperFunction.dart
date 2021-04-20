@@ -14,7 +14,7 @@ Future setLogin(bool val) async {
 Future<String> getUsername() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var username = prefs.getString('username') ?? '';
-  print('username Get' + username);
+  print('username Get ' + username);
   return username;
 }
 

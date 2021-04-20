@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:marquina/Utils/Utility.dart';
-import 'package:marquina/Utils/helperFunction.dart';
 import 'package:marquina/Widgets/commonAppBar.dart';
 import 'package:marquina/Widgets/subCommonAppBar.dart';
 import 'package:marquina/auth/LoginPage.dart';
 
-class GoBackToLoginAfterPasswordChnage extends StatefulWidget {
+class ChangePasswordErrorPage extends StatefulWidget {
   @override
-  _GoBackToLoginAfterPasswordChnageState createState() =>
-      _GoBackToLoginAfterPasswordChnageState();
+  _ChangePasswordErrorPageState createState() =>
+      _ChangePasswordErrorPageState();
 }
 
-class _GoBackToLoginAfterPasswordChnageState
-    extends State<GoBackToLoginAfterPasswordChnage> {
+class _ChangePasswordErrorPageState extends State<ChangePasswordErrorPage> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -38,33 +36,15 @@ class _GoBackToLoginAfterPasswordChnageState
                   )),
               SizedBox(height: 20),
               Text(
-                'Thank you',
+                'You have entered',
                 style: textStyle(),
               ),
               Text(
-                'your Password is Updated',
+                'wrong old password',
                 style: textStyle(),
               ),
-              InkWell(
-                onTap: () {
-                  setLogin(false);
-                  setUseId('');
-                  setUsername('');
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
-                      (route) => false);
-                },
-                child: Text(
-                  'click here to login',
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.grey[800]),
-                ),
-              ),
               Text(
-                'again.',
+                'Try again.',
                 style: textStyle(),
               ),
               SizedBox(height: 30),

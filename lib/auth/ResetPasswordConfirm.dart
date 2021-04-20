@@ -38,7 +38,7 @@ class _ResetPasswordConfirmState extends State<ResetPasswordConfirm> {
                   Container(
                       child: Center(
                     child: Text(
-                      'You will recieve a\npassword of your email\nid registered with us.\n\n\n Thank you',
+                      'You will recieve a new\npassword for your email\nid registered with us.\n\n\n Thank you',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 25,

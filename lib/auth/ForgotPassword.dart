@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:marquina/Home/HomePage.dart';
 import 'package:marquina/Utils/Utility.dart';
-import 'package:marquina/Utils/validators.dart';
+
 import 'package:marquina/Widgets/boxDecoration.dart';
 import 'package:marquina/Widgets/commonAppBar.dart';
 
@@ -122,12 +122,15 @@ class ForgotPasswordState extends State<ForgotPassword> {
       try {
         if (usernameController.text.split('@')[1] == 'maq.ai') {
           print(usernameController.text);
-          var response = await http.post(
-              Uri.parse('http://52.14.154.197:8000/user/forgot-password/'),
+
+          //      String apiUrl = 'http://52.14.154.197:8000/user/forgot-password/';
+          String apiUrl = baseUrl + 'user/forgot-password/';
+          var response = await http.post(Uri.parse(apiUrl),
               body: {"email": usernameController.text});
 
+          var res = json.decode(response.body);
           print(json.decode(response.body));
-          if (response.statusCode == 200) {
+          if (res['status'] == 200) {
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
@@ -141,5 +144,13 @@ class ForgotPasswordState extends State<ForgotPassword> {
         print(e.toString());
       }
     }
+  }
+
+  String validateEmail(String value) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    //r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@maq.ai$';
+    RegExp regex = new RegExp(pattern);
+    return (!regex.hasMatch(value)) ? '         *Enter Valid Mail' : null;
   }
 }

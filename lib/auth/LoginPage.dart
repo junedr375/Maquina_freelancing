@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:marquina/Home/HomePage.dart';
 import 'package:marquina/Utils/Utility.dart';
+import 'package:marquina/Utils/helperFunction.dart';
 import 'package:marquina/Utils/validators.dart';
 import 'package:marquina/Widgets/boxDecoration.dart';
 import 'package:marquina/Widgets/commonAppBar.dart';
@@ -202,12 +203,12 @@ class _LoginPageState extends State<LoginPage> {
                               if (isCredCorrect) SizedBox(height: 50),
                               InkWell(
                                 onTap: () {
-                                  //       login();
-                                  Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: ((context) => HomePage())),
-                                      (Route<dynamic> route) => false);
+                                  login();
+                                  // Navigator.pushAndRemoveUntil(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: ((context) => HomePage())),
+                                  //     (Route<dynamic> route) => false);
                                 },
                                 child: Container(
                                   height: 40,
@@ -277,12 +278,14 @@ class _LoginPageState extends State<LoginPage> {
   void login() async {
     final formState = _formKey.currentState;
     if (formState.validate()) {
+      //validating the mail
       try {
         setState(() {
           isCredCorrect = true;
         });
         print('Hello');
-        String apiUrl = 'http://52.14.154.197:8000/user/login/';
+        //  String apiUrl = 'http://52.14.154.197:8000/user/login/';
+        String apiUrl = baseUrl + 'user/login/';
 
         var res = await http.post(Uri.parse(apiUrl), body: {
           'email': usernameController.text.trim(),
@@ -296,6 +299,9 @@ class _LoginPageState extends State<LoginPage> {
           setState(() {
             isCredCorrect = true;
           });
+          setLogin(true);
+          setUsername(result['data']['email']);
+          setUseId(result['data']['user_id'].toString());
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: ((context) => HomePage())),

@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:marquina/Home/ChangePasswordError.dart';
 import 'package:marquina/Home/GoBackTOLoginAfterPC.dart';
 import 'package:marquina/Utils/Utility.dart';
 import 'package:marquina/Utils/helperFunction.dart';
@@ -214,19 +217,30 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       final formState = _formKey.currentState;
       if (formState.validate()) {
         try {
-          var res = await http.post(
-              Uri.parse('http://52.14.154.197:8000/user/update-password'),
-              body: {
-                "email": username,
-                "password": newPasswordController.text.trim(),
-                "old_password": oldPasswordController.text.trim()
-              });
-          if (res.statusCode == 200) {
-            Navigator.push(
+          //   String apiUrl = 'http://52.14.154.197:8000/user/update-password';
+          String apiUrl = baseUrl + 'user/update-password/';
+
+          var res = await http.post(Uri.parse(apiUrl), body: {
+            "email": username,
+            "password": newPasswordController.text.trim(),
+            "old_password": oldPasswordController.text.trim()
+          });
+          // print(res.body);
+          var response = jsonDecode(res.body);
+          print(response);
+          if (response['status'] == 200) {
+            print(response);
+            Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                     builder: ((context) =>
                         GoBackToLoginAfterPasswordChnage())));
+          } else {
+            print(response);
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: ((context) => ChangePasswordErrorPage())));
           }
         } catch (e) {
           print(e.toString());
