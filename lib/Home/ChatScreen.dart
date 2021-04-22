@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:marquina/Utils/Utility.dart';
+import 'package:marquina/Utils/helperFunction.dart';
 import 'package:marquina/Widgets/subCommonAppBar.dart';
+import 'package:marquina/Utils/backendFunctions.dart';
 
 class ChatScreen extends StatefulWidget {
   @override
@@ -15,7 +19,7 @@ class _ChatScreenState extends State<ChatScreen> {
   String myAddedList = 'dummy';
   String myCoinForAddedList;
   String myCurrencyForAddedList;
-  bool isInternetConnected = true;
+  String sessionId = '';
 
   ScrollController scrollController = ScrollController();
 
@@ -30,9 +34,11 @@ class _ChatScreenState extends State<ChatScreen> {
   List list = [];
 
   Color backGroundColor = Colors.purple[900];
+  int seconds = 600; //For poping out
 
   @override
   void initState() {
+    getSessionIdHere();
     setState(() {
       loading = false;
     });
@@ -41,6 +47,21 @@ class _ChatScreenState extends State<ChatScreen> {
     list.add(botIntent[1]);
     list.add(botIntent[2]);
     super.initState();
+    resetTimer();
+  }
+
+  getSessionIdHere() async {
+    sessionId = await getSessionId();
+    setState(() {});
+  }
+
+  void resetTimer() {
+    print('here');
+    Future.delayed(Duration(seconds: seconds), () async {
+      var res = await updateSession(sessionId);
+      print(res.toString());
+      //Navigator.pop(context);
+    });
   }
 
   @override
@@ -151,30 +172,7 @@ class _ChatScreenState extends State<ChatScreen> {
                               ),
                               onTap: () {
                                 if (messageController.text.length > 0) {
-                                  print(messageController.text);
-
-                                  setState(() {
-                                    list.add(
-                                      {
-                                        "isMe": true,
-                                        "text": messageController.text.trim()
-                                      },
-                                    );
-                                    list.add(botIntent[3]);
-                                    list.add(botIntent[4]);
-                                  });
-                                  if (scrollController.hasClients) {
-                                    scrollController.animateTo(
-                                      scrollController
-                                              .position.maxScrollExtent +
-                                          200.0,
-                                      duration: Duration(milliseconds: 600),
-                                      curve: Curves.fastOutSlowIn,
-                                    );
-                                  }
-                                  messageController.clear();
-                                  SystemChannels.textInput
-                                      .invokeMethod('TextInput.hide');
+                                  sendMessage();
                                 }
                               },
                             ),
@@ -195,5 +193,37 @@ class _ChatScreenState extends State<ChatScreen> {
                 SizedBox(height: 10),
               ],
             )));
+  }
+
+  void sendMessage() async {
+    print(messageController.text);
+    setState(() {
+      list.add(
+        {"isMe": true, "text": messageController.text.trim()},
+      );
+    });
+    messageController.clear();
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
+    var res = await getAnswer(sessionId, messageController.text);
+    print(res);
+    if (res['status'] == 200) {
+      setState(() {
+        list.add({"isMe": false, "text": res['data']['answer']});
+        seconds = 5; //For updating popping out time
+        resetTimer();
+      });
+      if (scrollController.hasClients) {
+        scrollController.animateTo(
+          scrollController.position.maxScrollExtent + 200.0,
+          duration: Duration(milliseconds: 600),
+          curve: Curves.fastOutSlowIn,
+        );
+      }
+    } else {
+      setState(() {
+        list.add({"isMe": false, "text": "Error connection server"});
+        seconds = 600; //For updating popping out time
+      });
+    }
   }
 }

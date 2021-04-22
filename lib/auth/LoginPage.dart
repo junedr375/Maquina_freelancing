@@ -15,6 +15,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:marquina/auth/NewFaceRecognisation.dart';
 import 'package:marquina/auth/SignUp.dart';
 import 'package:http/http.dart' as http;
+import 'package:marquina/Utils/backendFunctions.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -295,6 +296,8 @@ class _LoginPageState extends State<LoginPage> {
         var result = jsonDecode(res.body);
         print(result);
 
+//put inside if
+
         if (result['status'] == 200) {
           setState(() {
             isCredCorrect = true;
@@ -302,10 +305,25 @@ class _LoginPageState extends State<LoginPage> {
           setLogin(true);
           setUsername(result['data']['email']);
           setUseId(result['data']['user_id'].toString());
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: ((context) => HomePage())),
-              (Route<dynamic> route) => false);
+
+//For using sesion
+          var res2 = await createSession('2');
+          print(res2);
+          if (res2['status'] == 200) {
+            setSessionId(res2['data']['session_id'].toString());
+            print(res2['data']['session_id'].toString());
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: ((context) => HomePage())),
+                (Route<dynamic> route) => false);
+          }
+
+          //  var res = await createSession(result['data']['user_id']);
+
+          // Navigator.pushAndRemoveUntil(
+          //     context,
+          //     MaterialPageRoute(builder: ((context) => HomePage())),
+          //     (Route<dynamic> route) => false);
         } else {
           setState(() {
             isCredCorrect = false;

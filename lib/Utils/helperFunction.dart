@@ -36,3 +36,16 @@ Future setUseId(String userId) async {
   prefs.setString('useId', userId);
   print('userId Set' + userId);
 }
+
+Future<String> getSessionId() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var sessionId = prefs.getString('sessionId') ?? '';
+  print('sessionId Get' + sessionId);
+  return sessionId;
+}
+
+Future setSessionId(String sessionId) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString('sessionId', sessionId);
+  print('sessionId Set' + sessionId);
+}
