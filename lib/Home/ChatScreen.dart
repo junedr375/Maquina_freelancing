@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:marquina/Utils/Utility.dart';
 import 'package:marquina/Utils/helperFunction.dart';
 import 'package:marquina/Widgets/subCommonAppBar.dart';
 import 'package:marquina/Utils/backendFunctions.dart';
@@ -60,7 +59,9 @@ class _ChatScreenState extends State<ChatScreen> {
     Future.delayed(Duration(seconds: seconds), () async {
       var res = await updateSession(sessionId);
       print(res.toString());
-      //Navigator.pop(context);
+      if (res['status'] == 200) {
+        Navigator.pop(context);
+      }
     });
   }
 
@@ -179,13 +180,13 @@ class _ChatScreenState extends State<ChatScreen> {
                           )
                         ]),
                       ),
-                      Icon(
-                        Icons.mic,
-                        color: Colors.white,
-                        size: 35,
-                      ),
+                      // Icon(
+                      //   Icons.mic,
+                      //   color: Colors.white,
+                      //   size: 35,
+                      // ),
                       SizedBox(
-                        width: 5,
+                        width: 15,
                       ),
                     ],
                   ),
@@ -196,6 +197,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void sendMessage() async {
+    print(DateTime.now().toUtc().toString());
     print(messageController.text);
     setState(() {
       list.add(
@@ -204,18 +206,26 @@ class _ChatScreenState extends State<ChatScreen> {
     });
     messageController.clear();
     SystemChannels.textInput.invokeMethod('TextInput.hide');
+    if (scrollController.hasClients) {
+      scrollController.animateTo(
+        scrollController.position.maxScrollExtent + 200.0,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.fastOutSlowIn,
+      );
+    }
+
     var res = await getAnswer(sessionId, messageController.text);
     print(res);
     if (res['status'] == 200) {
       setState(() {
         list.add({"isMe": false, "text": res['data']['answer']});
-        seconds = 5; //For updating popping out time
+        seconds = 600; //For updating popping out time
         resetTimer();
       });
       if (scrollController.hasClients) {
         scrollController.animateTo(
           scrollController.position.maxScrollExtent + 200.0,
-          duration: Duration(milliseconds: 600),
+          duration: Duration(milliseconds: 300),
           curve: Curves.fastOutSlowIn,
         );
       }

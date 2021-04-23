@@ -7,7 +7,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext constext) {
     return MaterialApp(
         title: 'Maq Digital',
         debugShowCheckedModeBanner: false,

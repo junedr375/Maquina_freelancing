@@ -17,8 +17,11 @@ Future<Map> createSession(String userId) async {
 Future<dynamic> updateSession(String sessionId) async {
   String apiUrl = baseUrl + 'user/update-session/';
   var response = await http.post(Uri.parse(apiUrl),
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: jsonEncode({
-        "session_id": int.parse(sessionId),
+        "session_id": sessionId,
         "kwargs": {
           "session_out_time": DateTime.now().toUtc().toString(),
           "channel": "string"
